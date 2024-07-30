@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Event{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h4 style="margin-left:3%; margin-top:10px ;color: brown;">Submit Event</h4>
+    <!-- <div class="heading" style="margin-left:3%; margin-top:2px ">Submit Event</div> -->
+    <hr>
+    <div class="submit-main">
+        <div class="form-container">
+    <form action="{{ url_for('submit_event_with_id', event_id=event.id) }}" method="post">
+
+        {{ form.hidden_tag() }}
+
+    
+    
+            <p><b>Event ID</b> : {{ event.id }}</p>
+            <p><b>Event Name</b> : {{ event.event_name }}</p>
+            <p><b>Event Start</b> : {{ event.event_start }}</p>
+            <p><b>Event Stop</b> : {{ event.event_stop }}</p>
+
+        
+        <p><span style="color: red;">*For Operator</span></p>
+        <div class="operatorfield">
+            <p><b>Department : </b></p>
+            <select id="responsibleDepartment" name="department">
+                <option value="">Select Department</option>
+                <option value="mechanical">Mechanical</option>
+                <option value="electrical">Electrical</option>
+                <option value="operational">Operational</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="operatorfield">
+            <p><b> Reason : </b></p>
+            <select id="reason" name="reason">
+                <option value="">Select Reason</option>
+            </select>
+        </div>
+        <div class="reasoninput" id="reasonInputContainer" style="display: none;">
+            <input type="text" id="reasonInput" name="reasonInput" placeholder="Enter Reason">
+        </div>
+    
+        <button type="submit" value="Submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+</div>
+</div>
+
+<script>
+    const responsibleDepartment = document.getElementById("responsibleDepartment");
+    const reason = document.getElementById("reason");
+    const reasonInputContainer = document.getElementById("reasonInputContainer");
+    const reasonInput = document.getElementById("reasonInput");
+
+    const reasons = {
+        mechanical: ["Guide Box Fail", "Bearing Fail", "Mis-alignment of Pass","Other"],
+        electrical: ["Drive Trip", "Shear Not Taken Out","Other"],
+        operational: ["Pass change", "Stunt change", "Section Change", "Size Setting","Other"],
+        other: ["Power Dip", "Power Fail", "Voltage Fluctuation", "Other"]
+    };
+
+    function updateReasons() {
+        const selectedDepartment = responsibleDepartment.value;
+        const options = reasons[selectedDepartment] || [];
+        reason.innerHTML = '<option value="">Select Reason</option>';
+        options.forEach(reasonOption => {
+            const optionElement = document.createElement("option");
+            optionElement.value = reasonOption;
+            optionElement.textContent = reasonOption;
+            reason.appendChild(optionElement);
+        });
+        reasonInputContainer.style.display = "none";
+    }
+
+    responsibleDepartment.addEventListener("change", updateReasons);
+
+    reason.addEventListener("change", function() {
+        reasonInputContainer.style.display = reason.value === "Other" ? "block" : "none";
+    });
+</script>
+{% endblock %}
