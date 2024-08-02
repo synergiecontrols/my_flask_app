@@ -90,9 +90,9 @@
 
      <div class="row">
       <div class="col-lg-6">
-        <div class="card-production" style="height: 20rem;" data-title=" Production per hour">
+        <div class="card-production" style="height: 20rem;" data-title=" Production per day">
           <div class="heading-card">
-            Production / hour
+            Production / day
             <span class="fas fa-chart-line" style="font-size:24px; color:rgb(67, 243, 3); margin-left: 10px; cursor: pointer;" title="Click me - chart view" id="chart-icon-production"></span>
             <span class="fas fa-list-alt" style="font-size:24px; color:rgb(67, 243, 3); margin-left: 10px; cursor: pointer;" title="Click me - Table view" id="table-icon-production"></span>
           </div>
@@ -126,10 +126,10 @@
   
 
       <div class="col-lg-6" >
-        <div class="card-production"style="height: 20rem;" data-title="energy consumption per hour">
+        <div class="card-production"style="height: 20rem;" data-title="energy consumption per day">
        
             <div class="heading-card">
-              Energy consumption / hour  <span class="fas fa-chart-pie" id="chart-icon-energy" title="Click me - chart view" style="font-size:24px ; cursor: pointer;color:rgb(67, 243, 3); margin-left: 10px;"></span>
+              Energy consumption / day  <span class="fas fa-chart-pie" id="chart-icon-energy" title="Click me - chart view" style="font-size:24px ; cursor: pointer;color:rgb(67, 243, 3); margin-left: 10px;"></span>
               <span class="fas fa-list-alt" style="font-size:24px; color:rgb(67, 243, 3); margin-left: 10px; cursor: pointer;" title="Click me - Table view" id="table-icon-energy"></span>
             </div>
   <hr>
@@ -183,10 +183,10 @@
 
      <div class="row">
       <div class="col-lg-6" >
-        <div class="card-production" style="height: 20rem;" data-title=" cobble per hour">
+        <div class="card-production" style="height: 20rem;" data-title=" cobble per day">
           
           <div class="heading-card" >
-            Cobble per hour  <span class="fas fa-chart-bar" id="chart-icon-cobble" title="Click me - chart view" style="font-size:24px ; cursor: pointer;color:rgb(67, 243, 3); margin-left: 10px;"></span>
+            Cobble per day  <span class="fas fa-chart-bar" id="chart-icon-cobble" title="Click me - chart view" style="font-size:24px ; cursor: pointer;color:rgb(67, 243, 3); margin-left: 10px;"></span>
             <span class="fas fa-list-alt" style="font-size:24px; color:rgb(67, 243, 3); margin-left: 10px; cursor: pointer;" title="Click me - Table view" id="table-icon-cobble"></span>
          </div>
          <hr>
@@ -274,7 +274,7 @@
                <h5>{{  weekly_totals['total_cobble_count']  }}</h5>
               </div><hr>
            <div class="stats" style="display: flex;flex-direction: row;justify-content: space-between;margin-left: 1rem;margin-right: 1rem;">
-            <h5>last hour energy consumption</h5>
+            <h5>last day energy consumption</h5>
             <h5> {{  weekly_totals['total_energy_consumption']  }}  </h5>
            </div><hr>
            <div class="stats" style="display: flex;flex-direction: row;justify-content: space-between;margin-left: 1rem;margin-right: 1rem;">
@@ -423,7 +423,7 @@ tableIconTime.addEventListener('click', function() {
               options: {
                 legend: { display: false },
                 scales: {
-                  yAxes: [{ ticks: { min: 100, max: 1000 } }]
+                  yAxes: [{ ticks: { min: 0, max: 100 } }]
                 },
                 tooltips: {
                   callbacks: {
@@ -431,7 +431,7 @@ tableIconTime.addEventListener('click', function() {
         let label = '';
         const xValue = tooltipItem.xLabel;
         const yValue = tooltipItem.yLabel;
-        label += 'Hours: ' + xValue + ', Billets: ' + yValue;
+        label += 'days: ' + xValue + ', Billets: ' + yValue;
         return label;
                                     }
                   }
@@ -443,7 +443,7 @@ tableIconTime.addEventListener('click', function() {
     
     
     
-      // Radar chart data for eneergy consumption per hour
+      // Radar chart data for eneergy consumption per day
       var data = {
         labels: {{ dates | tojson }},
         datasets: [{
@@ -469,7 +469,7 @@ tableIconTime.addEventListener('click', function() {
         label: function(tooltipItem, data) {
           const xValueb = tooltipItem.xLabel;
           const yValueb = tooltipItem.yLabel;
-          return `Hours: ${xValueb}, energy: ${yValueb}`;
+          return `days: ${xValueb}, energy: ${yValueb}`;
         }
       }
     }
@@ -490,7 +490,7 @@ tableIconTime.addEventListener('click', function() {
     
     
     
-      // bar chart for cobble per hour
+      // bar chart for cobble per day
     
       
     const xValuesb = {{ dates | tojson }};
@@ -513,14 +513,14 @@ new Chart("myChart", {
   options: {
     legend: { display: false },
     scales: {
-                yAxes: [{ ticks: { min: 0, max: 100 } }]
+                yAxes: [{ ticks: { min: 0, max: 10 } }]
               },
     tooltips: {
       callbacks: {
         label: function(tooltipItem, data) {
           const xValueb = tooltipItem.xLabel;
           const yValueb = tooltipItem.yLabel;
-          return `Hours: ${xValueb}, cobbles: ${yValueb}`;
+          return `days: ${xValueb}, cobbles: ${yValueb}`;
         }
       }
     }

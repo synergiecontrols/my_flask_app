@@ -2386,10 +2386,46 @@ def shutdown_scheduler(scheduler):
         logger.error(f"Error shutting down scheduler: {e}")
 
 
+
+import sys
+
+from apscheduler.triggers.cron import CronTrigger
+
+def restart_flask_app():
+    logger.info("Restarting Flask app...")
+    python = sys.executable
+    time.sleep(10)
+    os.execl(python, python, * sys.argv)  # This will restart the Flask app
+
+def schedule_task_restart():
+    scheduler = BackgroundScheduler()
+    scheduler.start()
+    
+    # Schedule the restart task
+    trigger = CronTrigger(hour=8, minute=00)  # 8 AM daily
+    scheduler.add_job(restart_flask_app, trigger)
+    
+    logger.info("Scheduler started successfully.")
+
+    # Ensure the scheduler shuts down properly
+    try:
+        while True:
+            time.sleep(1)
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
+        logger.info("Scheduler shut down successfully.")
+    except Exception as e:
+        logger.error(f"Error shutting down scheduler: {e}")
+
+
 if __name__ == "__main__":
     with app.app_context():
-        schedule_task()
-    plc_thread = threading.Thread(target=plc_thread)
-    plc_thread.daemon = True
-    plc_thread.start()
+        scheduler_thread = threading.Thread(target=schedule_task_restart)
+        scheduler_thread.daemon = True
+        scheduler_thread.start()
+
+    plc_thread_instance = threading.Thread(target=plc_thread)
+    plc_thread_instance.daemon = True
+    plc_thread_instance.start()
+
     socketio.run(app, port=5001, host="0.0.0.0")

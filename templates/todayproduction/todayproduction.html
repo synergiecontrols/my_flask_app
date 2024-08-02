@@ -422,7 +422,7 @@ tableIconTime.addEventListener('click', function() {
               options: {
                 legend: { display: false },
                 scales: {
-                  yAxes: [{ ticks: { min: 10, max: 1500 } }]
+                  yAxes: [{ ticks: { min: 0, max: 100 } }]
                 },
                 tooltips: {
                   callbacks: {
@@ -511,7 +511,7 @@ new Chart("myChart", {
   options: {
     legend: { display: false },
     scales: {
-                yAxes: [{ ticks: { min: 0, max: 100 } }]
+                yAxes: [{ ticks: { min: 0, max: 10 } }]
               },
     tooltips: {
       callbacks: {
@@ -572,17 +572,17 @@ new Chart("myChart", {
     
     </script>
 
-    <!-- autoreload page after 30 sec -->
-    <!-- <script>
+    <!-- autoreload page after 5 min -->
+    <script>
             // Function to reload the page after 30 seconds
         function autoReload() {
             setTimeout(function() {
                 location.reload();
-            }, 30000); // 30 seconds in milliseconds
+            }, 300000); // 30 seconds in milliseconds
         }
 
         // Call the autoReload function when the page loads
         window.onload = autoReload;
   
-    </script> -->
+    </script>
   {% endblock %}
